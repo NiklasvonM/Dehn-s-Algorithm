@@ -1,24 +1,36 @@
+import copy
 
-
-class word:
-
-    def __init__(self, letters, presentation):
-        pass
-
+def free_reduce(word):
+    res = copy.deepcopy(word)
+    i = 0
+    while i < len(res)-1:
+        if res[i][0] == res[i+1][0] and res[i][1] != res[i+1][1]:
+            del res[i:i+2]
+            i = max(0, i-2)
+        i = i+1
+    return res
 
 
 class presentation:
 
+    # generators: list of strings
+    # relators: list of words
+    # words are a list of letters and their formal inverses
+    # represented by two-element lists containing a letter and a -1 or 1, depending on the sign
+    # all letters used in the relators need to be generators
     def __init__(self, generators, relators):
+        # Input checks
         for rel in relators:
             for letter in rel:
                 if letter[0] not in generators:
                     raise ValueError("Letter " + letter + " is not a generator.")
                 if letter[1] not in [-1, 1]:
                     raise ValueError("Sign must be -1 or 1. Is " + letter[1] + " for letter " + letter[0] + ".")
+
         self.generators = generators
         self.relators = relators
 
+    # Override print()
     def __str__(self):
         if len(self.generators) == 0:
             strGens = "\u2205" # empty set
