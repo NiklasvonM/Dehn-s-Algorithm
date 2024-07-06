@@ -23,30 +23,30 @@ def _dehn_acc(presentation: Presentation, word_list: list[Word]):
             # delete v from r to get u
             start_ind = None
             for i in range(len(rel)):
-                if Word(rel[i : i + len(v)]) == v:
+                if Word(rel.characters[i : i + len(v)]) == v:
                     start_ind = i
                     break
             u = Word(
                 [
                     x
-                    for i, x in enumerate(rel)
+                    for i, x in enumerate(rel.characters)
                     if start_ind is None or not (start_ind <= i < (start_ind + len(v)))
                 ]
             )
 
             # delete v and replace by u^-1
             for i in range(len(rel)):
-                if Word(rel[i : i + len(v)]) == v:
+                if Word(rel.characters[i : i + len(v)]) == v:
                     start_ind = i
                     break
             word_cur = Word(
                 [
                     x
-                    for i, x in enumerate(word_cur)
+                    for i, x in enumerate(word_cur.characters)
                     if start_ind is None or not (start_ind <= i < (start_ind + len(v)))
                 ]
             )
-            word_cur.characters[start_ind:start_ind] = u.invert_letters()
+            word_cur.characters[start_ind:start_ind] = u.invert_letters().characters
             word_list.append(word_cur.free_reduce())
             return _dehn_acc(presentation=presentation, word_list=word_list)
     return word_list

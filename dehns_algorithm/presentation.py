@@ -16,9 +16,9 @@ class Presentation:
         all letters used in the relators need to be generators
         """
         for rel in relators:
-            for word in rel:
-                if word.letter not in generators:
-                    raise ValueError(f"Letter {word} is not a generator.")
+            for character in rel.characters:
+                if character.letter not in generators:
+                    raise ValueError(f"Letter {character.letter} is not a generator.")
 
         self.generators = generators
         self.relators = relators
